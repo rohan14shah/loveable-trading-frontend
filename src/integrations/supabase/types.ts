@@ -14,7 +14,182 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      notifications: {
+        Row: {
+          created_at: string
+          id: string
+          is_read: boolean | null
+          message: string
+          notification_type: Database["public"]["Enums"]["notification_type"]
+          sent_at: string | null
+          stock_symbol: string | null
+          title: string
+          trade_signal_id: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_read?: boolean | null
+          message: string
+          notification_type: Database["public"]["Enums"]["notification_type"]
+          sent_at?: string | null
+          stock_symbol?: string | null
+          title: string
+          trade_signal_id?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_read?: boolean | null
+          message?: string
+          notification_type?: Database["public"]["Enums"]["notification_type"]
+          sent_at?: string | null
+          stock_symbol?: string | null
+          title?: string
+          trade_signal_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notifications_trade_signal_id_fkey"
+            columns: ["trade_signal_id"]
+            isOneToOne: false
+            referencedRelation: "trade_signals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          display_name: string | null
+          email: string | null
+          id: string
+          notifications_enabled: boolean | null
+          push_notification_token: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          display_name?: string | null
+          email?: string | null
+          id?: string
+          notifications_enabled?: boolean | null
+          push_notification_token?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          display_name?: string | null
+          email?: string | null
+          id?: string
+          notifications_enabled?: boolean | null
+          push_notification_token?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      stock_predictions: {
+        Row: {
+          confidence: number | null
+          created_at: string
+          document_type: Database["public"]["Enums"]["document_type"]
+          id: string
+          predicted_sentiment: Database["public"]["Enums"]["sentiment_label"]
+          raw_analysis: Json | null
+          reasoning_summary: string
+          stock_symbol: string
+          year: number
+        }
+        Insert: {
+          confidence?: number | null
+          created_at?: string
+          document_type: Database["public"]["Enums"]["document_type"]
+          id?: string
+          predicted_sentiment: Database["public"]["Enums"]["sentiment_label"]
+          raw_analysis?: Json | null
+          reasoning_summary: string
+          stock_symbol: string
+          year: number
+        }
+        Update: {
+          confidence?: number | null
+          created_at?: string
+          document_type?: Database["public"]["Enums"]["document_type"]
+          id?: string
+          predicted_sentiment?: Database["public"]["Enums"]["sentiment_label"]
+          raw_analysis?: Json | null
+          reasoning_summary?: string
+          stock_symbol?: string
+          year?: number
+        }
+        Relationships: []
+      }
+      trade_signals: {
+        Row: {
+          confidence: number | null
+          created_at: string
+          id: string
+          price: number | null
+          signal_data: Json | null
+          signal_name: string
+          signal_type: Database["public"]["Enums"]["signal_type"]
+          stock_symbol: string
+          triggered_at: string
+        }
+        Insert: {
+          confidence?: number | null
+          created_at?: string
+          id?: string
+          price?: number | null
+          signal_data?: Json | null
+          signal_name: string
+          signal_type: Database["public"]["Enums"]["signal_type"]
+          stock_symbol: string
+          triggered_at?: string
+        }
+        Update: {
+          confidence?: number | null
+          created_at?: string
+          id?: string
+          price?: number | null
+          signal_data?: Json | null
+          signal_name?: string
+          signal_type?: Database["public"]["Enums"]["signal_type"]
+          stock_symbol?: string
+          triggered_at?: string
+        }
+        Relationships: []
+      }
+      watchlists: {
+        Row: {
+          added_at: string
+          company_name: string | null
+          id: string
+          stock_symbol: string
+          user_id: string
+        }
+        Insert: {
+          added_at?: string
+          company_name?: string | null
+          id?: string
+          stock_symbol: string
+          user_id: string
+        }
+        Update: {
+          added_at?: string
+          company_name?: string | null
+          id?: string
+          stock_symbol?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +198,10 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      document_type: "10-K" | "earnings"
+      notification_type: "trade_signal" | "price_alert" | "news_alert"
+      sentiment_label: "positive" | "neutral" | "negative"
+      signal_type: "buy" | "sell"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +328,11 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      document_type: ["10-K", "earnings"],
+      notification_type: ["trade_signal", "price_alert", "news_alert"],
+      sentiment_label: ["positive", "neutral", "negative"],
+      signal_type: ["buy", "sell"],
+    },
   },
 } as const
