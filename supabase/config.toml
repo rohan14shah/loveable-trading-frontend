@@ -1,1 +1,13 @@
 project_id = "vowwzppzzrbaxbycpyin"
+
+[functions.manage-watchlist]
+verify_jwt = false
+
+[functions.stock-data]
+verify_jwt = false
+
+[functions.trade-signals]
+verify_jwt = false
+
+[functions.notifications]
+verify_jwt = false
